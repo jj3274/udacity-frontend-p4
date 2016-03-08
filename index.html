@@ -9,14 +9,15 @@
 
     <!-- Hmm, what is the impact of web fonts on speed? Measure it... -->
     <!-- tried to defer css loading based on http://keithclark.co.uk/articles/loading-css-without-blocking-render/ -->
-<!--
-    <link href="//fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
-    <link href="css/style.css" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
--->
-    <link href="css/print.css" media="print" rel="stylesheet">
 
-    <!-- it seems that above css defer loading doesn't work, this is another approach -->
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
+    <link href="css/style.min.css" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
+
+    <link href="css/print.min.css" media="print" rel="stylesheet">
+
+    <!-- this is another approach for lazy css loading-->
     <!-- based on http://www.giftofspeed.com/defer-loading-css/ -->
+<!--
     <script>
       var cb = function() {
       var l = document.createElement('link'); l.rel = 'stylesheet';
@@ -32,6 +33,7 @@
       if (raf) raf(cb);
       else window.addEventListener('load', cb);
     </script>
+-->
 
     <script>
       (function(w,g){w['GoogleAnalyticsObject']=g;
@@ -42,7 +44,7 @@
       ga('send', 'pageview');
     </script>
     <script async src="http://www.google-analytics.com/analytics.js"></script>
-    <script async src="js/perfmatters.js"></script>
+    <script async src="js/perfmatters.min.js"></script>
   </head>
 
   <body>
@@ -77,7 +79,7 @@
           </li>
 
           <li>
-            <img style="width: 100px;" src="views/images/pizzeria.jpg">
+            <img style="width: 100px;" src="views/images/pizzeria-small.jpg">
             <a href="views/pizza.html">Cam's Pizzeria</a>
             <p>Who wants a performant pizza?</p>
           </li>
