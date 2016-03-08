@@ -452,8 +452,12 @@ var resizePizzas = function(size) {
 
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
+    // JY: CHANGE1
+    // More efficient way to access DOM -> document.getElementsByClassName()
     var pizzaContainer = document.getElementsByClassName('randomPizzaContainer');
 
+    // JY: CHANGE2
+    // Simply set width by % instead of computing pixel to set.
     var newSize = sizeSwitcher(size) * 100;
     for (var i = 0, len = pizzaContainer.length; i < len; i++) {
       // var dx = determineDx(pizzaContainer[i], size);
@@ -509,50 +513,21 @@ function updatePositions() {
   window.performance.mark("mark_start_frame");
 
   // var items = document.querySelectorAll('.mover');
+  // More efficient way to access DOM -> document.getElementsByClassName()
   var items = document.getElementsByClassName('mover');
-  // More efficient way to access DOM -> document.getElementsByClass()
 
-  var translateXArray = [];
+  // JY: CHANGE3
+  // Calculate phase and prepare translateX style statement
+  var translateXStyle = [];
   var scrollRate = (document.body.scrollTop / 1250);
-  var phase;
   for (var i = 0; i < 5; i++) {
-    phase = Math.sin(scrollRate + i);
-    translateXArray[i] = "translateX(" + (100 * phase) + "px)";
+    var phase = Math.sin(scrollRate + i);
+    translateXStyle[i] = "translateX(" + (100 * phase) + "px)";
   }
 
   for (i = 0; i < items.length; i++) {
-    translateX = translateXArray[i % 5];
-    // (i % 5) ... 0, 1, 2, 3, 4
-    // We do not need to calculate these for each
-    // console.log(phase, document.body.scrollTop / 1250);
-
-    /* Using style.left, is there a more efficient way to change the position of this object?
-      It looks like the Layout gets re-triggered everytime we scroll. Remember how the browser renders our object.
-        -> DOM -> CSSOM -> JavaScript -> Render Tree -> Layout -> Paint
-      Perhaps CSS3 hardware accelation can reduce the need trigger a re-layout? Can we offload the CPU and use GPU
-      The CSS 'transform' property can help us here.
-    */
-
-    // CSS3 has hardware accelation and certain transformation that reduces the need to re-trigger a layout
-    // transform: translateX();
-
-    /* Advanced Hack Here: Can we also reduce the need for the browser to paint the entire screen? Can we tell the
-    actually moving? Whenever a pixel in a layer changes, the browser repaints the entire layer. Therefore
-    animating pizza in its own layer? Therefore whenever we animate the pizzas, only a small part of the screen
-
-    We should look up there CSS Hacks to see if they can force our elements into its layer:
-    transform: translateZ(0);
-    transform translate3d(0,0,0);
-    backface-visibility: hidden;
-
-    Be Careful of these hacks:
-
-    This hack can wreak havoc on mobile devices due to low VRAM for some mobile devices:
-    Moving all of these pizzas to its own composite layer offloads the texturing and painting to the GPU
-    But if the GPU cannot handle the extra memory load, there may be even poorer performance.
-    */
-    // items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
-    items[i].style.transform = translateX;
+    // Now, simply set translateX style for css transform
+    items[i].style.transform = translateXStyle[i % 5];
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
@@ -573,12 +548,14 @@ document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
 
+  // JY: CHANGE4
+  // Similar to updatePositions(), Calculate phase and element left position.
   var phaseList = [], baseLeftList = [];
   var scrollRate = (document.body.scrollTop / 1250);
   for (var i = 0; i < 5; i++) {
     phaseList[i] = Math.sin(scrollRate + i) * 100;
   }
-  for (i = 0; i < cols; i++) {
+  for (i = 0; i < cols; i++) { // This also removes the repeated calculation.
     baseLeftList[i] = i * s;
   }
 
@@ -590,7 +567,7 @@ document.addEventListener('DOMContentLoaded', function() {
     elem.style.width = "73.333px";
     var phase = phaseList[i % 5];
     var baseLeft = baseLeftList[i % cols];
-    elem.style.left = baseLeft + phase + 'px';
+    elem.style.left = baseLeft + phase + 'px'; // Now, we can simply concat as string
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
     document.querySelector("#movingPizzas1").appendChild(elem);
   }

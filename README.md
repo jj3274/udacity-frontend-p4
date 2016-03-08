@@ -1,6 +1,7 @@
 ## Website Performance Optimization portfolio project
 
-Your challenge, if you wish to accept it (and we sure hope you will), is to optimize this online portfolio for speed! In particular, optimize the critical rendering path and make this page render as quickly as possible by applying the techniques you've picked up in the [Critical Rendering Path course](https://www.udacity.com/course/ud884).
+This project is to optimize an online portfolio website for speed. In particular, optimize the critical rendering path and make this page render as quickly as possible based on techniques from [Critical Rendering Path course](https://www.udacity.com/course/ud884).
+
 
 To get started, check out the repository, inspect the code,
 
@@ -8,12 +9,12 @@ To get started, check out the repository, inspect the code,
 
 ####Part 1: Optimize PageSpeed Insights score for index.html
 
-Some useful tips to help you get started:
+Here is the step to run PageSpeed Insights analysis for this project
 
 1. Check out the repository
 1. To inspect the site on your phone, you can run a local server
 
-  ```bash
+  ```
   $> cd /path/to/your-project-folder
   $> python -m SimpleHTTPServer 8080
   ```
@@ -21,53 +22,111 @@ Some useful tips to help you get started:
 1. Open a browser and visit localhost:8080
 1. Download and install [ngrok](https://ngrok.com/) to make your local server accessible remotely.
 
-  ``` bash
+  ```
   $> cd /path/to/your-project-folder
   $> ngrok http 8080
   ```
 
-1. Copy the public URL ngrok gives you and try running it through PageSpeed Insights! Optional: [More on integrating ngrok, Grunt and PageSpeed.](http://www.jamescryer.com/2014/06/12/grunt-pagespeed-and-ngrok-locally-testing/)
+1. Copy the public URL ngrok gives you and try running it through PageSpeed Insights!
+This project also includes Grunt integration, but ngrok requires paid plan to run: [More on integrating ngrok, Grunt and PageSpeed.](http://www.jamescryer.com/2014/06/12/grunt-pagespeed-and-ngrok-locally-testing/)
 
-Profile, optimize, measure... and then lather, rinse, and repeat. Good luck!
+####Part 1 Analysis: Compare PageSpeed Insights scores
+
+You can check out different versions of the site using git tag <tagname>
+
+There are four tags for Part 1 project:
+1. initial-template
+1. v0.1-images-optimized
+1. v0.2-completed-part1
+1. v0.2-completed-part1-pagespeed-score-96
+
+The initial score was 30/100, and the final score is 96/100.
+
+Multiple optimizations are applied. More analysis using Google Chrome Dev Tool are as following:
+1. Initial template
+```DCL: 143ms, onload: 4466ms```
+
+1. After image size reduction using OS X 'sips' command and 'ImageOptim' app
+```DCL: 184ms, onload: 523ms```
+
+1. After lazy css loading
+```DCL: 3ms, onload: 578ms```
+
+1. After moving javascript and css link to the bottom of page
+```DCL: 3ms, onload: 269ms```
+
+1. After inline css to html
+```DCL: 4ms, onload: 159ms```
+
+1. After minifying javascript/css/html
+```DCL: 4ms, onload: 129ms```
 
 ####Part 2: Optimize Frames per Second in pizza.html
 
-To optimize views/pizza.html, you will need to modify views/js/main.js until your frames per second rate is 60 fps or higher. You will find instructive comments in main.js. 
+The requirement is to perform an optimizations 1) ensuring a consistent frame rate at 60fps when scrolling in pizza.html, and 2) reducing the time to resize pizza less than 5 ms shown in the browser console.
 
-You might find the FPS Counter/HUD Display useful in Chrome developer tools described here: [Chrome Dev Tools tips-and-tricks](https://developer.chrome.com/devtools/docs/tips-and-tricks).
+All changes in main.js can be found using 'JY: CHANGE'
 
-### Optimization Tips and Tricks
-* [Optimizing Performance](https://developers.google.com/web/fundamentals/performance/ "web performance")
-* [Analyzing the Critical Rendering Path](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/analyzing-crp.html "analyzing crp")
-* [Optimizing the Critical Rendering Path](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/optimizing-critical-rendering-path.html "optimize the crp!")
-* [Avoiding Rendering Blocking CSS](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/render-blocking-css.html "render blocking css")
-* [Optimizing JavaScript](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/adding-interactivity-with-javascript.html "javascript")
-* [Measuring with Navigation Timing](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/measure-crp.html "nav timing api"). We didn't cover the Navigation Timing API in the first two lessons but it's an incredibly useful tool for automated page profiling. I highly recommend reading.
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/eliminate-downloads.html">The fewer the downloads, the better</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/optimize-encoding-and-transfer.html">Reduce the size of text</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/image-optimization.html">Optimize images</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching.html">HTTP caching</a>
+1. JY: CHANGE1
 
-### Customization with Bootstrap
-The portfolio was built on Twitter's <a href="http://getbootstrap.com/">Bootstrap</a> framework. All custom styles are in `dist/css/portfolio.css` in the portfolio repo.
+```
+// More efficient way to access DOM -> document.getElementsByClassName()
+var pizzaContainer = document.getElementsByClassName('randomPizzaContainer');
+```
 
-* <a href="http://getbootstrap.com/css/">Bootstrap's CSS Classes</a>
-* <a href="http://getbootstrap.com/components/">Bootstrap's Components</a>
+1. JY: CHANGE2
 
-### Sample Portfolios
+```
+// Simply set width by % instead of computing pixel to set.
+var newSize = sizeSwitcher(size) * 100;
+for (var i = 0, len = pizzaContainer.length; i < len; i++) {
+  // var dx = determineDx(pizzaContainer[i], size);
+  // var newwidth = (pizzaContainer[i].offsetWidth + dx) + 'px';
+  // pizzaContainer[i].style.width = newwidth;
+  pizzaContainer[i].style.width = newSize + "%";
+}
+```
 
-Feeling uninspired by the portfolio? Here's a list of cool portfolios I found after a few minutes of Googling.
+1. JY: CHANGE3
 
-* <a href="http://www.reddit.com/r/webdev/comments/280qkr/would_anybody_like_to_post_their_portfolio_site/">A great discussion about portfolios on reddit</a>
-* <a href="http://ianlunn.co.uk/">http://ianlunn.co.uk/</a>
-* <a href="http://www.adhamdannaway.com/portfolio">http://www.adhamdannaway.com/portfolio</a>
-* <a href="http://www.timboelaars.nl/">http://www.timboelaars.nl/</a>
-* <a href="http://futoryan.prosite.com/">http://futoryan.prosite.com/</a>
-* <a href="http://playonpixels.prosite.com/21591/projects">http://playonpixels.prosite.com/21591/projects</a>
-* <a href="http://colintrenter.prosite.com/">http://colintrenter.prosite.com/</a>
-* <a href="http://calebmorris.prosite.com/">http://calebmorris.prosite.com/</a>
-* <a href="http://www.cullywright.com/">http://www.cullywright.com/</a>
-* <a href="http://yourjustlucky.com/">http://yourjustlucky.com/</a>
-* <a href="http://nicoledominguez.com/portfolio/">http://nicoledominguez.com/portfolio/</a>
-* <a href="http://www.roxannecook.com/">http://www.roxannecook.com/</a>
-* <a href="http://www.84colors.com/portfolio.html">http://www.84colors.com/portfolio.html</a>
+```
+// Calculate phase and prepare translateX style statement
+var translateXStyle = [];
+var scrollRate = (document.body.scrollTop / 1250);
+for (var i = 0; i < 5; i++) {
+  var phase = Math.sin(scrollRate + i);
+  translateXStyle[i] = "translateX(" + (100 * phase) + "px)";
+}
+
+for (i = 0; i < items.length; i++) {
+  // Now, simply set translateX style for css transform
+  items[i].style.transform = translateXStyle[i % 5];
+}
+```
+
+1. JY: CHANGE4
+
+```
+// Similar to updatePositions(), Calculate phase and element left position.
+var phaseList = [], baseLeftList = [];
+var scrollRate = (document.body.scrollTop / 1250);
+for (var i = 0; i < 5; i++) {
+  phaseList[i] = Math.sin(scrollRate + i) * 100;
+}
+for (i = 0; i < cols; i++) { // This also removes the repeated calculation.
+  baseLeftList[i] = i * s;
+}
+
+for (i = 0; i < 200; i++) {
+  var elem = document.createElement('img');
+  elem.className = 'mover';
+  elem.src = "images/pizza.png";
+  elem.style.height = "100px";
+  elem.style.width = "73.333px";
+  var phase = phaseList[i % 5];
+  var baseLeft = baseLeftList[i % cols];
+  elem.style.left = baseLeft + phase + 'px'; // Now, we can simply concat as string
+  elem.style.top = (Math.floor(i / cols) * s) + 'px';
+  document.querySelector("#movingPizzas1").appendChild(elem);
+}
+```
