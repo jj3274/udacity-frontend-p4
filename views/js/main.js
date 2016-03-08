@@ -544,7 +544,10 @@ function updatePositions() {
     Moving all of these pizzas to its own composite layer offloads the texturing and painting to the GPU
     But if the GPU cannot handle the extra memory load, there may be even poorer performance.
     */
-    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+    // items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+    var transformStyle = "translateX(" + (100 * phase) + "px)";
+    items[i].style.transform = transformStyle;
+
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
@@ -564,13 +567,23 @@ window.addEventListener('scroll', updatePositions);
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
-  for (var i = 0; i < 200; i++) {
+
+  var phaseList = [];
+  var scrollRate = (document.body.scrollTop / 1250);
+  var phase;
+  for (var i = 0; i < 5; i++) {
+    phase = Math.sin(scrollRate + i);
+    phaseList[i] = phase;
+  }
+
+  for (i = 0; i < 200; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
     elem.style.height = "100px";
     elem.style.width = "73.333px";
-    elem.basicLeft = (i % cols) * s;
+    phase = phaseList[i % 5];
+    elem.style.left = (i % cols) * s + 100 * phase + 'px';
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
     document.querySelector("#movingPizzas1").appendChild(elem);
   }
