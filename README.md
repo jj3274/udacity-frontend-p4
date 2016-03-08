@@ -8,6 +8,10 @@ This project uses Grunt and several plugins to generate a production level websi
 
 #### Installing Grunt
 ```bash
+sudo npm install
+```
+
+```bash
 npm install -g grunt-cli
 ```
 
