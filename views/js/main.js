@@ -502,19 +502,20 @@ function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
 
-  var items = document.querySelectorAll('.mover');
+  // var items = document.querySelectorAll('.mover');
+  var items = document.getElementsByClassName('mover');
   // More efficient way to access DOM -> document.getElementsByClass()
 
-  var phaseList = [];
+  var translateXArray = [];
   var scrollRate = (document.body.scrollTop / 1250);
   var phase;
   for (var i = 0; i < 5; i++) {
     phase = Math.sin(scrollRate + i);
-    phaseList[i] = phase;
+    translateXArray[i] = "translateX(" + (100 * phase) + "px)";
   }
 
   for (i = 0; i < items.length; i++) {
-    phase = phaseList[i % 5];
+    translateX = translateXArray[i % 5];
     // (i % 5) ... 0, 1, 2, 3, 4
     // We do not need to calculate these for each
     // console.log(phase, document.body.scrollTop / 1250);
@@ -545,9 +546,7 @@ function updatePositions() {
     But if the GPU cannot handle the extra memory load, there may be even poorer performance.
     */
     // items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
-    var transformStyle = "translateX(" + (100 * phase) + "px)";
-    items[i].style.transform = transformStyle;
-
+    items[i].style.transform = translateX;
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
@@ -568,12 +567,13 @@ document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
 
-  var phaseList = [];
+  var phaseList = [], baseLeftList = [];
   var scrollRate = (document.body.scrollTop / 1250);
-  var phase;
   for (var i = 0; i < 5; i++) {
-    phase = Math.sin(scrollRate + i);
-    phaseList[i] = phase;
+    phaseList[i] = Math.sin(scrollRate + i) * 100;
+  }
+  for (i = 0; i < cols; i++) {
+    baseLeftList[i] = i * s;
   }
 
   for (i = 0; i < 200; i++) {
@@ -582,8 +582,9 @@ document.addEventListener('DOMContentLoaded', function() {
     elem.src = "images/pizza.png";
     elem.style.height = "100px";
     elem.style.width = "73.333px";
-    phase = phaseList[i % 5];
-    elem.style.left = (i % cols) * s + 100 * phase + 'px';
+    var phase = phaseList[i % 5];
+    var baseLeft = baseLeftList[i % cols];
+    elem.style.left = baseLeft + phase + 'px';
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
     document.querySelector("#movingPizzas1").appendChild(elem);
   }
