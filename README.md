@@ -2,6 +2,40 @@
 
 This project is to optimize an online portfolio website for speed. In particular, optimize the critical rendering path and make this page render as quickly as possible based on techniques from [Critical Rendering Path course](https://www.udacity.com/course/ud884).
 
+### Part 0: Getting Started
+
+This project uses Grunt and several plugins to generate a production level website from `src` to `dist` directory. You should install the grunt and the following plugins:
+
+#### Installing Grunt
+```bash
+npm install -g grunt-cli
+```
+
+#### Installing Grunt Plugins
+```bash
+npm install --save-dev load-grunt-tasks
+npm install --save matchdep
+npm install grunt-contrib-cssmin --save-dev
+npm install grunt-contrib-qunit --save-dev
+npm install grunt-contrib-jshint --save-dev
+npm install grunt-contrib-uglify --save-dev
+npm install grunt-contrib-copy --save-dev
+npm install grunt-contrib-clean --save-dev
+npm install grunt-contrib-htmlmin --save-dev
+npm install grunt-contrib-imagemin --save-dev
+npm install grunt-uncss --save-dev
+npm install grunt-pagespeed --save-dev
+npm install grunt-ngrok --save-dev
+```
+
+#### Generating Production Level Website
+This will create new directory `dist` with generating the optimized and minified versions of images, html, css, and javascript from `src` directory.
+
+```bash
+cd /path/to/your-project-folder
+grunt
+```
+
 ### Part 1: Optimize PageSpeed Insights score for index.html
 
 Here is the step to run PageSpeed Insights analysis for this project

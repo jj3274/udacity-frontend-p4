@@ -13,9 +13,33 @@ module.exports = function(grunt) {
 
   // Load grunt tasks
   require('load-grunt-tasks')(grunt);
+  require("matchdep").filterDev("grunt-*").forEach(grunt.loadNpmTasks);
 
   // Grunt configuration
   grunt.initConfig({
+    clean: ['dist'],
+    copy: {
+      main: {
+        expand: true,
+        cwd: 'src',
+        src: '**',
+        dest: 'dist/',
+      },
+    },
+    htmlmin: {
+      dist: {
+        options: {
+          removeComments: true,
+          collapseWhitespace: true
+        },
+        files: [{
+          expand: true,
+          cwd: 'src',
+          src: '**/*.html',
+          dest: 'dist/'
+        }]
+      }
+    },
     pagespeed: {
       options: {
         nokey: true,
@@ -30,6 +54,53 @@ module.exports = function(grunt) {
       mobile: {
         options: {
           strategy: "mobile"
+        }
+      }
+    },
+    cssmin: {
+      sitecss: {
+        options: {
+          banner: '/* My minified css file */'
+        },
+        files: [{
+          expand: true,
+          cwd: 'src/views/css',
+          src: '*.css',
+          dest: 'dist/views/css'
+        }]
+      }
+    },
+    uncss: {
+      dist: {
+        options: {
+          ignore: [/js-.+/, '.special-class'],
+          ignoreSheets: [/fonts.googleapis/],
+        },
+        files: {
+          'dist/css/unused-removed.css': ['src/index.html', 'src/views/pizza.html']
+        }
+      }
+    },
+    imagemin: {
+      dist: {
+        options: {
+          optimizationLevel: 5
+        },
+        files: [{
+          expand: true,
+          cwd: 'src/views/images',
+          src: ['**/*.{png,jpg,gif}'],
+          dest: 'dist/views/images'
+        }]
+      }
+    },
+    uglify: {
+      options: {
+        compress: true
+      },
+      my_target: {
+        files: {
+          'dist/views/js/main.js': 'src/views/js/main.js'
         }
       }
     }
@@ -52,6 +123,6 @@ module.exports = function(grunt) {
   });
 
   // Register default tasks
-  grunt.registerTask('default', ['psi-ngrok']);
-}
-
+  grunt.registerTask('default', ['clean', 'copy', 'uglify', 'cssmin', 'htmlmin', 'uncss', 'imagemin']);
+  // grunt.registerTask('default', ['psi-ngrok']);
+};
