@@ -6,45 +6,6 @@
     <meta name="description" content=" FILL ME IN ">
     <meta name="author" content=" FILL ME IN ">
     <title>Cameron Pittman: Portfolio</title>
-
-    <!-- Hmm, what is the impact of web fonts on speed? Measure it... -->
-    <!-- tried to defer css loading based on http://keithclark.co.uk/articles/loading-css-without-blocking-render/ -->
-
-    <link href="//fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
-    <link href="css/style.min.css" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
-
-    <link href="css/print.min.css" media="print" rel="stylesheet">
-
-    <!-- this is another approach for lazy css loading-->
-    <!-- based on http://www.giftofspeed.com/defer-loading-css/ -->
-<!--
-    <script>
-      var cb = function() {
-      var l = document.createElement('link'); l.rel = 'stylesheet';
-      l.href = 'css/style.css';
-      var l2 = document.createElement('link'); l.rel = 'stylesheet';
-      l2.href = '//fonts.googleapis.com/css?family=Open+Sans:400,700';
-      var h = document.getElementsByTagName('head')[0];
-      h.parentNode.insertBefore(l2, h);
-      h.parentNode.insertBefore(l1, h);
-      };
-      var raf = requestAnimationFrame || mozRequestAnimationFrame ||
-      webkitRequestAnimationFrame || msRequestAnimationFrame;
-      if (raf) raf(cb);
-      else window.addEventListener('load', cb);
-    </script>
--->
-
-    <script>
-      (function(w,g){w['GoogleAnalyticsObject']=g;
-      w[g]=w[g]||function(){(w[g].q=w[g].q||[]).push(arguments)};w[g].l=1*new Date();})(window,'ga');
-
-      // Optional TODO: replace with your Google Analytics profile ID.
-      ga('create', 'UA-74844909-1');
-      ga('send', 'pageview');
-    </script>
-    <script async src="http://www.google-analytics.com/analytics.js"></script>
-    <script async src="js/perfmatters.min.js"></script>
   </head>
 
   <body>
@@ -89,5 +50,20 @@
     <footer>
       <p>&copy; Web Performance 2014 <span id="crp-stats"></span></p>
     </footer>
-  </body>
+
+  <script>
+    (function(w,g){w['GoogleAnalyticsObject']=g;
+    w[g]=w[g]||function(){(w[g].q=w[g].q||[]).push(arguments)};w[g].l=1*new Date();})(window,'ga');
+
+    ga('create', 'UA-74844909-1');
+    ga('send', 'pageview');
+  </script>
+  <script async src="http://www.google-analytics.com/analytics.js"></script>
+  <script async src="js/perfmatters.min.js"></script>
+
+</body>
 </html>
+
+<link href="//fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
+<link href="css/style.min.css" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
+<link href="css/print.min.css" media="print" rel="stylesheet">
