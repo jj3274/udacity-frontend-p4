@@ -2,19 +2,14 @@
 
 This project is to optimize an online portfolio website for speed. In particular, optimize the critical rendering path and make this page render as quickly as possible based on techniques from [Critical Rendering Path course](https://www.udacity.com/course/ud884).
 
-
-To get started, check out the repository, inspect the code,
-
-### Getting started
-
-####Part 1: Optimize PageSpeed Insights score for index.html
+### Part 1: Optimize PageSpeed Insights score for index.html
 
 Here is the step to run PageSpeed Insights analysis for this project
 
 1. Check out the repository
 1. To inspect the site on your phone, you can run a local server
 
-  ```
+  ```bash
   $> cd /path/to/your-project-folder
   $> python -m SimpleHTTPServer 8080
   ```
@@ -22,7 +17,7 @@ Here is the step to run PageSpeed Insights analysis for this project
 1. Open a browser and visit localhost:8080
 1. Download and install [ngrok](https://ngrok.com/) to make your local server accessible remotely.
 
-  ```
+  ```bash
   $> cd /path/to/your-project-folder
   $> ngrok http 8080
   ```
@@ -30,7 +25,7 @@ Here is the step to run PageSpeed Insights analysis for this project
 1. Copy the public URL ngrok gives you and try running it through PageSpeed Insights!
 This project also includes Grunt integration, but ngrok requires paid plan to run: [More on integrating ngrok, Grunt and PageSpeed.](http://www.jamescryer.com/2014/06/12/grunt-pagespeed-and-ngrok-locally-testing/)
 
-####Part 1 Analysis: Compare PageSpeed Insights scores
+#### Analysis: Compare PageSpeed Insights scores
 
 You can check out different versions of the site using git tag <tagname>
 
@@ -40,7 +35,7 @@ There are four tags for Part 1 project:
 1. v0.2-completed-part1
 1. v0.2-completed-part1-pagespeed-score-96
 
-The initial score was 30/100, and the final score is 96/100.
+The initial score was **30/100**, and the final score is **96/100**.
 
 Multiple optimizations are applied. More analysis using Google Chrome Dev Tool are as following:
 1. Initial template
@@ -61,22 +56,22 @@ Multiple optimizations are applied. More analysis using Google Chrome Dev Tool a
 1. After minifying javascript/css/html
 ```DCL: 4ms, onload: 129ms```
 
-####Part 2: Optimize Frames per Second in pizza.html
+### Part 2: Optimize Frames per Second in pizza.html
 
 The requirement is to perform an optimizations 1) ensuring a consistent frame rate at 60fps when scrolling in pizza.html, and 2) reducing the time to resize pizza less than 5 ms shown in the browser console.
 
-All changes in main.js can be found using 'JY: CHANGE'
+All changes in main.js can be found using **JY: CHANGE** string search
 
 1. JY: CHANGE1
 
-```
+```javascript
 // More efficient way to access DOM -> document.getElementsByClassName()
 var pizzaContainer = document.getElementsByClassName('randomPizzaContainer');
 ```
 
 1. JY: CHANGE2
 
-```
+```javascript
 // Simply set width by % instead of computing pixel to set.
 var newSize = sizeSwitcher(size) * 100;
 for (var i = 0, len = pizzaContainer.length; i < len; i++) {
@@ -89,7 +84,7 @@ for (var i = 0, len = pizzaContainer.length; i < len; i++) {
 
 1. JY: CHANGE3
 
-```
+```javascript
 // Calculate phase and prepare translateX style statement
 var translateXStyle = [];
 var scrollRate = (document.body.scrollTop / 1250);
@@ -106,7 +101,7 @@ for (i = 0; i < items.length; i++) {
 
 1. JY: CHANGE4
 
-```
+```javascript
 // Similar to updatePositions(), Calculate phase and element left position.
 var phaseList = [], baseLeftList = [];
 var scrollRate = (document.body.scrollTop / 1250);
