@@ -479,8 +479,8 @@ var resizePizzas = function(size) {
 window.performance.mark("mark_start_generating"); // collect timing data
 
 // This for-loop actually creates and appends all of the pizzas when the page loads
+var pizzasDiv = document.getElementById("randomPizzas");
 for (var i = 2; i < 100; i++) {
-  var pizzasDiv = document.getElementById("randomPizzas");
   pizzasDiv.appendChild(pizzaElementGenerator(i));
 }
 
@@ -559,7 +559,10 @@ document.addEventListener('DOMContentLoaded', function() {
     baseLeftList[i] = i * s;
   }
 
-  for (i = 0; i < 200; i++) {
+  var intViewportHeight = window.innerHeight;
+  var numOfPizzas = intViewportHeight / 100 * 8;  // 8 columns pizza, each of them have 100 px height
+
+  for (i = 0; i < numOfPizzas; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
